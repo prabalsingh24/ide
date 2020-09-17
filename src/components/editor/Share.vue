@@ -66,7 +66,7 @@
     },
     props: ['url'],
     methods: {
-      getURL() {
+      async getURL() {
         this.showShareModal = true;
         if (window.location.href !== this.longURL)
           axios.post('https://cb.lk/api/v1/shorten', {
@@ -79,12 +79,12 @@
           })
 
         // // only enablePairMode if not already pairing
-        // const state = this.$store.state
-        // if (!state.isPairing)
-        //   this.$store.commit('enablePairMode', {keepText: true})
-
-        // const middle = state.codeId ? '/s/' + state.codeId + '?ref=' : '/j/'
-        // this.shortURL = window.location.host + middle + state.firebase.ref
+        const state = this.$store.state
+        if (!state.isPairing) {
+          await this.$store.dispatch('getFirebaseRefAndStartCodeSharing')
+        }
+        const middle = state.codeId ? '/s/' + state.codeId + '?ref=' : '/j/'
+        this.shortURL = window.location.host + middle + state.firebase.ref.key
       },
       onCopy() {
         this.$notify({

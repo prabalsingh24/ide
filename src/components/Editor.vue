@@ -31,9 +31,8 @@
     mounted () {
       const ref = this.$route.query.ref || this.$attrs.ref
       if (ref) {
-        this.$store.dispatch('firebase/startCodeSharing', ref).catch(() => {
-          alert('This live code link is no longer valid')
-          this.$router.push('/')
+        this.$store.dispatch('firebase/startCodeSharing', {refKey: ref}).catch(() => {}).then(()=> {
+          alert('Starting Code Sharing')
         })
       }
       this.checkForFork()
