@@ -297,6 +297,13 @@ export default new Vuex.Store({
 
           return data;
         });
+    },
+    getFirebaseRefAndStartCodeSharing({ state, commit, dispatch }) {
+      return httpPost('/code_pair/create', {})
+        .then(async response => {
+          const refKey = response.data.firebaseRefKey;
+          await dispatch('firebase/startCodeSharing', {refKey: refKey, keepText: true})
+        })
     }
   }
 });

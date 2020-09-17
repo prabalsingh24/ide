@@ -15,10 +15,10 @@ export default {
     }
   },
   actions: {
-    async startCodeSharing({ commit }, ref) {
-      const firebaseRef = await getRef(ref)
+    async startCodeSharing({ commit }, {refKey, keepText}) {
+      const firebaseRef = await getRef(refKey)
       commit('setFirebaseRef', firebaseRef)
-      commit('enablePairMode')
+      commit('enablePairMode', {keepText})
     }
   }
 }
