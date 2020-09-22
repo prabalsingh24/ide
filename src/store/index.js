@@ -302,8 +302,18 @@ export default new Vuex.Store({
       return httpPost('/code_pair/create', {})
         .then(async response => {
           const refKey = response.data.firebaseRefKey;
-          await dispatch('firebase/startCodeSharing', {refKey: refKey, keepText: true})
+          await dispatch('firebase/startCodeSharing', {refKey: refKey, keepText: true});
+          dispatch('deleteFirebaseRef', {refKey: refKey});
         })
+    },
+    async deleteFirebaseRef({ state, commit, dispatch}, {refKey}) {
+      alert('This code pair session will be deleted in 2 hours');
+      await new Promise(resolve => setTimeout(resolve, 7200000));
+      alert('This code pair session will be deleted in 60 seconds');
+      await new Promise(resolve => setTimeout(resolve, 60000));
+      return httpPost('/code_pair/delete', {
+        firebaseRefKey: refKey
+      })
     }
   }
 });
