@@ -303,6 +303,7 @@ export default new Vuex.Store({
         .then(async response => {
           const refKey = response.data.firebaseRefKey;
           await dispatch('firebase/startCodeSharing', {refKey: refKey, keepText: true});
+          window.history.replaceState(null, '', `/j/${refKey}`);
           dispatch('deleteFirebaseRef', {refKey: refKey});
         })
     },
