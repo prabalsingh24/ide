@@ -11,6 +11,14 @@ export const getRef = async function (key) {
   else
     throw new Error('Must specify a key to get reference')
 
-  await ref.once('value')
+  await ref.once('value').then((snapshot) => {
+    if(snapshot.exists()) {
+      alert('Code pairing session started')
+    }
+    else {
+      alert('Code pair id is incorrect')
+      window.location = "/"
+    }
+  });
   return ref
 }
